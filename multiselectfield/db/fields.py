@@ -101,9 +101,14 @@ class MultiSelectField(models.CharField):
         return ",".join(value)
 
     def to_python(self, value):
-        if value is not None:
-            return value if isinstance(value, list) else value.split(',')
-        return ''
+        if value is None:
+            return None
+        elif value == '':
+            return []
+        elif isinstance(value, list):
+            return value
+        else:
+            return value.split(',')
 
     def contribute_to_class(self, cls, name):
         super(MultiSelectField, self).contribute_to_class(cls, name)
